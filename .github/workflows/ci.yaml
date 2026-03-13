@@ -1,0 +1,22 @@
+# CI for Product Catalog Service
+
+name: product-catalog-ci
+
+on:
+    pull_request:
+        branches:
+        - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up terraform
+          uses: hashicorp/setup-terraform@v4
+
+        - name: Terraform init
+          run: terraform init
