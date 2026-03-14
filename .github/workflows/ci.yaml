@@ -88,13 +88,13 @@ jobs:
             aws-region: ${{ secrets.AWS_REGION }}
 
         - name: Download Terraform Plan
-          uses: actions/download-artifact@v6
+          uses: actions/download-artifact@v8
           with:
             name: terraform-plan
 
         - name: Check file structure
-          run: ls -R
+          run: ls -F
 
         - name: Terraform Apply
-          run: terraform apply -auto-approve tfplan
+          run: terraform apply -auto-approve terraform-plan/tfplan
           
