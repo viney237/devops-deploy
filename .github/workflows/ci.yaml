@@ -55,7 +55,10 @@ jobs:
           uses: actions/upload-artifact@v6
           with:
             name: terraform-plan
-            path: tfplan
+            path: terraform/tfplan
+
+        - name: Check file structure
+          run: ls -R
     
     terraform_apply:
         name: Terraform Apply
