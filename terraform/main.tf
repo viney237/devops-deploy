@@ -12,22 +12,29 @@ module "vpc" {
   enable_nat_gateway = true
 }
 
-# module "eks" {
-#   source  = "terraform-aws-modules/eks/aws"
-#   version = "20.0"
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "~> 21.0"
 
-#   cluster_name    = var.cluster_name
-#   cluster_version = "1.29"
+  name               = var.cluster_name
+  kubernetes_version = "1.33"
 
-#   subnet_ids = module.vpc.private_subnets
-#   vpc_id     = module.vpc.vpc_id
+  # Optional
+  endpoint_public_access = true
 
-#   eks_managed_node_groups = {
-#     default = {
-#       instance_types = ["t3.medium"]
-#       desired_size   = 2
-#       max_size       = 3
-#       min_size       = 1
-#     }
-#   }
-# }
+  # Optional: Adds the current caller identity as an administrator via cluster access entry
+  enable_cluster_creator_admin_permissions = true
+
+  compute_config = {
+    enabled    = true
+    node_pools = ["general-purpose"]
+  }
+
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
+
+  tags = {
+    Environment = "sbx"
+    Terraform   = "true"
+  }
+}
