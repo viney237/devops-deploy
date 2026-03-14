@@ -56,6 +56,9 @@ jobs:
           with:
             name: terraform-plan
             path: terraform/tfplan
+
+        - name: Check file structure
+          run: ls -R
     
     terraform_apply:
         name: Terraform Apply
@@ -88,7 +91,9 @@ jobs:
           uses: actions/download-artifact@v6
           with:
             name: terraform-plan
-            path: terraform/tfplan
+
+        - name: Check file structure
+          run: ls -R
 
         - name: Terraform Apply
           run: terraform apply -auto-approve tfplan
